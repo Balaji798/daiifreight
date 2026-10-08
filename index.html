@@ -1,0 +1,2444 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset=utf8>
+    <meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <style>
+        :root {
+            color-scheme: light;
+            box-sizing: border-box;
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px)
+        }
+
+        html {
+            scroll-padding-top: env(safe-area-inset-top, 0px)
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #faf9f5;
+            color: #141413
+        }
+
+        img {
+            max-width: 100%
+        }
+
+        [hidden]:not([hidden=until-found i]) {
+            display: none !important
+        }
+    </style>
+</head>
+
+<body>
+    <title>DAIIFREIGHT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+    <style>
+        /* Layout: catalogue plates on a cool paper ground, cut by charcoal bands; orange only where you act or where a part matters. */
+        :root {
+            --ink: #17181a;
+            /* charcoal: type, dark bands */
+            --ink-2: #222427;
+            /* raised charcoal */
+            --paper: #f0f0ed;
+            /* page ground, cool off-white */
+            --plate: #e3e4e0;
+            /* product plate */
+            --rule: #c8c9c4;
+            /* hairlines */
+            --mute: #686b70;
+            /* secondary text */
+            --mute-d: #9a9da2;
+            /* secondary text on charcoal */
+            --orange: #ec6a1e;
+            /* action + accent */
+            --orange-d: #c4540f;
+            --steel: #d4d6d7;
+            --steel-d: #7b7f84;
+            --vial: #d9e6c9;
+            --lens: #dfe5e8;
+            --f-display: "Archivo", "Roboto Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+            --f-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+            --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+            --gut: clamp(16px, 4vw, 56px);
+            --max: 1360px;
+            color-scheme: light;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 72px
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font: 400 16px/1.55 var(--f-body);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden
+        }
+
+        a {
+            color: inherit
+        }
+
+        img,
+        svg {
+            max-width: 100%
+        }
+
+        .wrap {
+            max-width: var(--max);
+            margin-inline: auto;
+            padding-inline: var(--gut)
+        }
+
+        .disp {
+            font-family: var(--f-display);
+            font-stretch: 72%;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -.005em;
+            line-height: .9;
+            text-wrap: balance;
+            margin: 0
+        }
+
+        .eyebrow {
+            font: 500 12px/1.2 var(--f-mono);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--mute);
+            margin: 0
+        }
+
+        .eyebrow b {
+            color: var(--orange);
+            font-weight: 500
+        }
+
+        p {
+            margin: 0
+        }
+
+        .lede {
+            font-size: clamp(17px, 1.4vw, 19px);
+            max-width: 56ch;
+            color: var(--mute)
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--orange);
+            outline-offset: 3px
+        }
+
+        /* buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font: 600 15px/1 var(--f-body);
+            padding: 15px 22px;
+            border: 1px solid transparent;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background .25s, color .25s, border-color .25s
+        }
+
+        .btn-p {
+            background: var(--orange);
+            color: var(--ink)
+        }
+
+        .btn-p:hover {
+            background: #f57d36
+        }
+
+        .btn-g {
+            border-color: currentColor;
+            background: transparent
+        }
+
+        .btn-g:hover {
+            background: var(--ink);
+            color: var(--paper);
+            border-color: var(--ink)
+        }
+
+        .dark .btn-g:hover {
+            background: var(--paper);
+            color: var(--ink);
+            border-color: var(--paper)
+        }
+
+        .arr {
+            width: 14px;
+            height: 10px;
+            flex: none
+        }
+
+        /* drawings */
+        .dw .s,
+        .dw path,
+        .dw rect,
+        .dw circle,
+        .dw ellipse,
+        .dw line,
+        .dw polyline {
+            stroke: var(--ink);
+            stroke-width: 1.5;
+            stroke-linejoin: round;
+            stroke-linecap: round
+        }
+
+        .dw .ln {
+            fill: none;
+            stroke-width: 1
+        }
+
+        .dw .hl {
+            fill: none;
+            stroke-width: .75;
+            stroke: var(--steel-d)
+        }
+
+        .dw .cl {
+            fill: none;
+            stroke-width: .75;
+            stroke: var(--steel-d);
+            stroke-dasharray: 10 3 2 3
+        }
+
+        .dw .fs {
+            fill: var(--steel)
+        }
+
+        .dw .fd {
+            fill: #3a3d41
+        }
+
+        .dw .fo {
+            fill: var(--orange)
+        }
+
+        .dw .fp {
+            fill: var(--paper)
+        }
+
+        .dw .fv {
+            fill: var(--vial)
+        }
+
+        .dw .fl {
+            fill: var(--lens);
+            fill-opacity: .8
+        }
+
+        .dw .kn {
+            stroke: #8d9095;
+            stroke-width: 1
+        }
+
+        .dw .dim {
+            fill: none;
+            stroke: var(--steel-d);
+            stroke-width: .75
+        }
+
+        .dw text {
+            font: 500 11px var(--f-mono);
+            fill: var(--mute);
+            stroke: none;
+            letter-spacing: .06em
+        }
+
+        .dw .tag {
+            font-weight: 500;
+            fill: var(--ink)
+        }
+
+        .plate {
+            position: relative;
+            background: var(--plate);
+            overflow: hidden
+        }
+
+        .plate .dw {
+            display: block;
+            width: 100%;
+            height: auto
+        }
+
+        .crop::before,
+        .crop::after {
+            content: "";
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border: 1.5px solid var(--orange);
+            pointer-events: none
+        }
+
+        .crop::before {
+            top: 12px;
+            left: 12px;
+            border-right: 0;
+            border-bottom: 0
+        }
+
+        .crop::after {
+            bottom: 12px;
+            right: 12px;
+            border-left: 0;
+            border-top: 0
+        }
+
+        .cap {
+            font: 500 11px/1.4 var(--f-mono);
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            color: var(--mute)
+        }
+
+        /* header */
+        .hdr {
+            position: fixed;
+            inset: 0 0 auto 0;
+            z-index: 50;
+            padding-top: env(safe-area-inset-top, 0px);
+            color: var(--paper);
+            transition: background .35s, box-shadow .35s
+        }
+
+        .hdr .wrap {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            height: 76px;
+            transition: height .35s
+        }
+
+        .hdr.compact {
+            background: var(--ink);
+            box-shadow: 0 1px 0 #2e3034
+        }
+
+        .hdr.compact .wrap {
+            height: 58px
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font: 800 20px/1 var(--f-display);
+            font-stretch: 85%;
+            letter-spacing: .04em
+        }
+
+        .logo i {
+            width: 14px;
+            height: 14px;
+            background: var(--orange);
+            display: block;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 40% 100%, 40% 40%, 0 40%)
+        }
+
+        .nav {
+            display: flex;
+            gap: 28px;
+            margin-left: 12px
+        }
+
+        .nav a,
+        .hdr-r a.t {
+            font: 500 14px/1 var(--f-body);
+            text-decoration: none;
+            opacity: .85;
+            padding-block: 8px;
+            border-bottom: 1px solid transparent
+        }
+
+        .nav a:hover,
+        .hdr-r a.t:hover {
+            opacity: 1;
+            border-color: var(--orange)
+        }
+
+        .hdr-r {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 22px
+        }
+
+        .hdr-r .btn {
+            padding: 11px 16px;
+            font-size: 14px
+        }
+
+        .menu-b {
+            display: none;
+            background: none;
+            border: 1px solid #4a4d52;
+            color: inherit;
+            width: 42px;
+            height: 38px;
+            cursor: pointer
+        }
+
+        .menu-b span {
+            display: block;
+            width: 16px;
+            height: 1.5px;
+            background: currentColor;
+            margin: 4px auto
+        }
+
+        .mnav {
+            display: none
+        }
+
+        /* hero */
+        .hero {
+            background: var(--ink);
+            color: var(--paper);
+            padding-top: calc(76px + env(safe-area-inset-top, 0px));
+            overflow: hidden
+        }
+
+        .hero-g {
+            display: grid;
+            grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+            align-items: end;
+            gap: clamp(24px, 4vw, 64px);
+            padding-block: clamp(40px, 6vw, 88px) 0
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6.6vw, 7.8rem)
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--orange)
+        }
+
+        .hero-c {
+            display: grid;
+            gap: 28px;
+            padding-bottom: clamp(40px, 6vw, 88px);
+            min-width: 0
+        }
+
+        .hero .lede {
+            color: #b9bcc0
+        }
+
+        .cta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px
+        }
+
+        .hero-plate {
+            align-self: stretch;
+            margin-right: calc(-1 * var(--gut));
+            min-width: 0;
+            display: flex;
+            flex-direction: column
+        }
+
+        .hero-plate .plate {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: clamp(20px, 3vw, 48px) clamp(8px, 2vw, 32px)
+        }
+
+        .hero-plate .dw {
+            will-change: transform;
+            transform-origin: 70% 50%
+        }
+
+        .hero-meta {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 0;
+            color: var(--mute-d);
+            border-top: 1px solid #2e3034
+        }
+
+        .hero-meta .cap {
+            color: var(--mute-d)
+        }
+
+        .hero-band {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid #2e3034
+        }
+
+        .hero-band div {
+            padding: 18px 20px 22px 0;
+            border-right: 1px solid #2e3034;
+            display: grid;
+            gap: 4px
+        }
+
+        .hero-band div:last-child {
+            border-right: 0
+        }
+
+        .hero-band b {
+            font: 600 14px var(--f-body)
+        }
+
+        .hero-band span {
+            font-size: 13px;
+            color: var(--mute-d)
+        }
+
+        /* sections */
+        section {
+            padding-block: clamp(72px, 10vw, 140px)
+        }
+
+        .sec-h {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 32px;
+            align-items: end;
+            margin-bottom: clamp(36px, 5vw, 64px)
+        }
+
+        .sec-h h2 {
+            font-size: clamp(2.6rem, 6vw, 5.2rem)
+        }
+
+        .sec-h .r {
+            display: grid;
+            gap: 18px;
+            justify-items: start
+        }
+
+        /* categories */
+        .cats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            border-top: 1px solid var(--rule);
+            border-left: 1px solid var(--rule)
+        }
+
+        .cat {
+            all: unset;
+            box-sizing: border-box;
+            cursor: pointer;
+            display: grid;
+            grid-template-rows: auto 1fr;
+            border-right: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+            background: var(--paper);
+            transition: background .3s
+        }
+
+        .cat .plate {
+            background: transparent;
+            aspect-ratio: 4/3
+        }
+
+        .cat .dw {
+            transition: transform .6s cubic-bezier(.2, .7, .2, 1)
+        }
+
+        .cat:hover {
+            background: var(--plate)
+        }
+
+        .cat:hover .dw {
+            transform: scale(1.05)
+        }
+
+        .cat .meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 12px;
+            padding: 14px 18px 18px
+        }
+
+        .cat h3 {
+            font: 600 17px/1.25 var(--f-body);
+            margin: 0
+        }
+
+        .cat .n {
+            font: 500 12px var(--f-mono);
+            color: var(--mute)
+        }
+
+        .cat:hover h3 {
+            color: var(--orange-d)
+        }
+
+        /* featured (horizontal) */
+        .feat {
+            background: var(--ink);
+            color: var(--paper)
+        }
+
+        .feat .lede {
+            color: #b9bcc0
+        }
+
+        .feat .eyebrow {
+            color: var(--mute-d)
+        }
+
+        .rail-ctl {
+            display: flex;
+            gap: 8px
+        }
+
+        .rail-ctl button {
+            width: 46px;
+            height: 46px;
+            border: 1px solid #45484d;
+            background: none;
+            color: var(--paper);
+            cursor: pointer;
+            display: grid;
+            place-items: center
+        }
+
+        .rail-ctl button:hover {
+            border-color: var(--orange);
+            color: var(--orange)
+        }
+
+        .rail {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: min(78vw, 760px);
+            gap: clamp(16px, 2vw, 28px);
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-inline: var(--gut);
+            scroll-padding-inline: var(--gut);
+            scrollbar-width: none;
+            padding-bottom: 6px
+        }
+
+        .rail::-webkit-scrollbar {
+            display: none
+        }
+
+        .fcard {
+            scroll-snap-align: start;
+            display: grid;
+            grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+            background: var(--ink-2);
+            min-width: 0
+        }
+
+        .fcard .plate {
+            aspect-ratio: 4/3.2
+        }
+
+        .fcard .plate .dw {
+            transition: transform .7s cubic-bezier(.2, .7, .2, 1)
+        }
+
+        .fcard:hover .plate .dw {
+            transform: scale(1.04)
+        }
+
+        .fcard .body {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: clamp(20px, 2.4vw, 32px);
+            min-width: 0
+        }
+
+        .fcard h3 {
+            font: 800 clamp(1.6rem, 2.4vw, 2.2rem)/.95 var(--f-display);
+            font-stretch: 75%;
+            text-transform: uppercase;
+            margin: 0
+        }
+
+        .fcard p {
+            color: #b9bcc0;
+            font-size: 15px
+        }
+
+        .fcard .eyebrow {
+            color: var(--orange)
+        }
+
+        .fcard .btn {
+            margin-top: auto;
+            align-self: flex-start;
+            padding: 12px 0;
+            border: 0;
+            border-bottom: 1px solid var(--orange);
+            color: var(--paper);
+            background: none
+        }
+
+        .fcard .btn:hover {
+            color: var(--orange)
+        }
+
+        /* story */
+        .story {
+            padding-block: 0
+        }
+
+        .st {
+            display: grid;
+            grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+            min-height: min(88vh, 820px)
+        }
+
+        .st.flip {
+            grid-template-columns: minmax(0, 5fr) minmax(0, 7fr)
+        }
+
+        .st.flip .st-img {
+            order: 2
+        }
+
+        .st-img {
+            position: relative;
+            overflow: hidden;
+            background: var(--plate);
+            display: grid;
+            place-items: center
+        }
+
+        .st-img .dw {
+            width: 100%;
+            height: 100%;
+            will-change: transform
+        }
+
+        .st-img .dw * {
+            vector-effect: non-scaling-stroke
+        }
+
+        .st-img .dw path,
+        .st-img .dw rect,
+        .st-img .dw circle {
+            stroke-width: 1.8
+        }
+
+        .st-img .cap {
+            position: absolute;
+            left: 24px;
+            bottom: 20px
+        }
+
+        .st-t {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 24px;
+            padding: clamp(40px, 6vw, 96px) clamp(24px, 5vw, 80px)
+        }
+
+        .st-t h2 {
+            font-size: clamp(2.6rem, 5.4vw, 5rem)
+        }
+
+        .st-t .lede {
+            color: var(--mute)
+        }
+
+        .st.dark .st-t {
+            background: var(--ink);
+            color: var(--paper)
+        }
+
+        .st.dark .st-t .lede {
+            color: #b9bcc0
+        }
+
+        .st.dark .eyebrow {
+            color: var(--mute-d)
+        }
+
+        .pts {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 0;
+            border-top: 1px solid var(--rule);
+            max-width: 46ch
+        }
+
+        .st.dark .pts {
+            border-color: #34363a
+        }
+
+        .pts li {
+            display: grid;
+            grid-template-columns: 28px 1fr;
+            gap: 8px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--rule);
+            font-size: 15px
+        }
+
+        .st.dark .pts li {
+            border-color: #34363a
+        }
+
+        .pts li span {
+            font: 500 12px/1.9 var(--f-mono);
+            color: var(--orange)
+        }
+
+        /* applications */
+        .apps {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: clamp(12px, 1.6vw, 24px)
+        }
+
+        .app {
+            display: grid;
+            gap: 14px;
+            align-content: start;
+            min-width: 0
+        }
+
+        .app .plate {
+            aspect-ratio: 3/4
+        }
+
+        .app .plate .dw {
+            height: 100%
+        }
+
+        .app h3 {
+            font: 600 18px/1.25 var(--f-body);
+            margin: 0
+        }
+
+        .app p {
+            font-size: 14.5px;
+            color: var(--mute)
+        }
+
+        /* finder */
+        .finder {
+            background: var(--plate)
+        }
+
+        .fd-g {
+            display: grid;
+            grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+            gap: clamp(24px, 4vw, 64px);
+            align-items: start
+        }
+
+        .q {
+            font: 600 15px var(--f-body);
+            margin: 0 0 14px
+        }
+
+        .tasks {
+            display: grid;
+            border-top: 1px solid var(--rule)
+        }
+
+        .task {
+            all: unset;
+            box-sizing: border-box;
+            cursor: pointer;
+            display: grid;
+            grid-template-columns: 36px 1fr auto;
+            align-items: center;
+            gap: 8px;
+            padding: 18px 4px;
+            border-bottom: 1px solid var(--rule);
+            font: 600 clamp(20px, 2vw, 26px)/1.1 var(--f-display);
+            font-stretch: 80%;
+            text-transform: uppercase;
+            transition: color .25s, padding .3s
+        }
+
+        .task .k {
+            font: 500 12px var(--f-mono);
+            color: var(--mute)
+        }
+
+        .task .dot {
+            width: 10px;
+            height: 10px;
+            border: 1.5px solid var(--rule);
+            transition: background .25s, border-color .25s
+        }
+
+        .task:hover {
+            padding-left: 10px
+        }
+
+        .task[aria-pressed="true"] {
+            color: var(--ink)
+        }
+
+        .task[aria-pressed="true"] .dot {
+            background: var(--orange);
+            border-color: var(--orange)
+        }
+
+        .task[aria-pressed="false"] {
+            color: #8a8d91
+        }
+
+        .fd-out {
+            display: grid;
+            gap: 20px;
+            min-width: 0
+        }
+
+        .fd-note {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 16px;
+            align-items: baseline;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--rule)
+        }
+
+        .fd-note p {
+            max-width: 62ch
+        }
+
+        .fd-list {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px
+        }
+
+        .fd-list.anim>* {
+            animation: rise .5s cubic-bezier(.2, .7, .2, 1) both
+        }
+
+        .fd-list.anim>*:nth-child(2) {
+            animation-delay: .06s
+        }
+
+        .fd-list.anim>*:nth-child(3) {
+            animation-delay: .12s
+        }
+
+        @keyframes rise {
+            from {
+                transform: translateY(10px);
+                opacity: .3
+            }
+
+            to {
+                transform: none;
+                opacity: 1
+            }
+        }
+
+        /* product card (grid + finder) */
+        .pc {
+            all: unset;
+            box-sizing: border-box;
+            cursor: pointer;
+            display: grid;
+            gap: 12px;
+            align-content: start;
+            min-width: 0
+        }
+
+        .pc .plate {
+            aspect-ratio: 1/1;
+            background: var(--paper)
+        }
+
+        .finder .pc .plate {
+            background: var(--paper)
+        }
+
+        .grid-sec .pc .plate {
+            background: var(--plate)
+        }
+
+        .pc .dw {
+            transition: transform .6s cubic-bezier(.2, .7, .2, 1)
+        }
+
+        .pc:hover .dw {
+            transform: scale(1.06)
+        }
+
+        .pc .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: baseline
+        }
+
+        .pc h3 {
+            font: 600 16px/1.3 var(--f-body);
+            margin: 0
+        }
+
+        .pc p {
+            font-size: 14px;
+            color: var(--mute)
+        }
+
+        .pc .go {
+            font: 500 12px var(--f-mono);
+            color: var(--orange-d);
+            white-space: nowrap
+        }
+
+        .pc:hover h3 {
+            text-decoration: underline;
+            text-decoration-color: var(--orange);
+            text-underline-offset: 4px
+        }
+
+        /* technical */
+        .tech {
+            background: var(--ink);
+            color: var(--paper)
+        }
+
+        .tech .lede {
+            color: #b9bcc0
+        }
+
+        .tech .eyebrow {
+            color: var(--mute-d)
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+            border-bottom: 1px solid #34363a;
+            margin-bottom: clamp(24px, 3vw, 40px)
+        }
+
+        .tab {
+            all: unset;
+            cursor: pointer;
+            padding: 14px 18px;
+            font: 500 14px var(--f-body);
+            color: var(--mute-d);
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px
+        }
+
+        .tab[aria-selected="true"] {
+            color: var(--paper);
+            border-color: var(--orange)
+        }
+
+        .tab:hover {
+            color: var(--paper)
+        }
+
+        .tech-g {
+            display: grid;
+            grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+            gap: clamp(24px, 4vw, 56px);
+            align-items: start
+        }
+
+        .tech .plate {
+            aspect-ratio: 4/3
+        }
+
+        .tech .plate .dw {
+            height: 100%
+        }
+
+        .spec {
+            display: grid;
+            gap: 0;
+            margin: 0
+        }
+
+        .spec div {
+            display: grid;
+            grid-template-columns: minmax(110px, 34%) 1fr;
+            gap: 16px;
+            padding: 14px 0;
+            border-top: 1px solid #34363a
+        }
+
+        .spec dt {
+            font: 500 12px/1.6 var(--f-mono);
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--mute-d)
+        }
+
+        .spec dd {
+            margin: 0;
+            font-size: 15px
+        }
+
+        .spec dd ol {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 4px
+        }
+
+        .spec dd ol li {
+            display: grid;
+            grid-template-columns: 22px 1fr
+        }
+
+        .spec dd ol li b {
+            font: 500 12px/1.9 var(--f-mono);
+            color: var(--orange)
+        }
+
+        .spec-note {
+            font-size: 13px;
+            color: var(--mute-d);
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid #34363a
+        }
+
+        /* statement */
+        .stmt {
+            padding-block: clamp(96px, 14vw, 200px)
+        }
+
+        .stmt h2 {
+            font-size: clamp(3rem, 9.6vw, 9.4rem);
+            max-width: 12ch
+        }
+
+        .stmt h2 span {
+            color: var(--orange)
+        }
+
+        .stmt .lede {
+            margin-top: clamp(28px, 4vw, 48px);
+            margin-left: auto;
+            max-width: 44ch;
+            font-size: clamp(18px, 1.6vw, 22px);
+            color: var(--ink)
+        }
+
+        /* grid */
+        .grid-sec {
+            border-top: 1px solid var(--rule)
+        }
+
+        .gbar {
+            position: sticky;
+            top: calc(58px + env(safe-area-inset-top, 0px));
+            z-index: 20;
+            background: var(--paper);
+            display: grid;
+            gap: 12px;
+            padding-block: 14px;
+            border-bottom: 1px solid var(--rule);
+            margin-bottom: 28px
+        }
+
+        .gbar-r {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center
+        }
+
+        .search {
+            flex: 1 1 240px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid var(--rule);
+            background: #fff;
+            padding: 0 14px;
+            min-width: 0
+        }
+
+        .search input {
+            all: unset;
+            flex: 1;
+            min-width: 0;
+            padding: 12px 0;
+            font: 400 15px var(--f-body)
+        }
+
+        .search:focus-within {
+            border-color: var(--ink)
+        }
+
+        .sel {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px
+        }
+
+        .sel select {
+            font: 500 14px var(--f-body);
+            padding: 11px 30px 11px 12px;
+            border: 1px solid var(--rule);
+            background: #fff;
+            color: var(--ink);
+            appearance: none;
+            background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%);
+            background-position: calc(100% - 15px) 50%, calc(100% - 10px) 50%;
+            background-size: 5px 5px;
+            background-repeat: no-repeat
+        }
+
+        .chips {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            padding-bottom: 2px
+        }
+
+        .chips::-webkit-scrollbar {
+            display: none
+        }
+
+        .chip {
+            all: unset;
+            cursor: pointer;
+            white-space: nowrap;
+            padding: 8px 14px;
+            border: 1px solid var(--rule);
+            font: 500 13px var(--f-body);
+            transition: all .2s
+        }
+
+        .chip:hover {
+            border-color: var(--ink)
+        }
+
+        .chip[aria-pressed="true"] {
+            background: var(--ink);
+            color: var(--paper);
+            border-color: var(--ink)
+        }
+
+        .count {
+            font: 500 12px var(--f-mono);
+            color: var(--mute);
+            letter-spacing: .05em
+        }
+
+        .pgrid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: clamp(16px, 2vw, 28px) clamp(12px, 1.6vw, 22px)
+        }
+
+        .pgrid .pc {
+            transition: opacity .3s
+        }
+
+        .empty {
+            padding: 48px 0;
+            color: var(--mute)
+        }
+
+        /* trust */
+        .trust {
+            background: var(--plate)
+        }
+
+        .tr-g {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            border-top: 1px solid var(--ink)
+        }
+
+        .tr {
+            padding: 22px 20px 8px 0;
+            display: grid;
+            gap: 10px;
+            align-content: start
+        }
+
+        .tr+.tr {
+            padding-left: 20px;
+            border-left: 1px solid var(--rule)
+        }
+
+        .tr h3 {
+            font: 600 17px/1.3 var(--f-body);
+            margin: 0
+        }
+
+        .tr p {
+            font-size: 14.5px;
+            color: var(--mute)
+        }
+
+        .tr .ic {
+            width: 28px;
+            height: 28px
+        }
+
+        .tr .ic * {
+            fill: none;
+            stroke: var(--ink);
+            stroke-width: 1.5
+        }
+
+        .tr .ic .o {
+            stroke: var(--orange)
+        }
+
+        /* final CTA */
+        .final {
+            background: var(--ink);
+            color: var(--paper);
+            position: relative;
+            overflow: hidden
+        }
+
+        .final-g {
+            display: grid;
+            grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+            gap: 32px;
+            align-items: end
+        }
+
+        .final h2 {
+            font-size: clamp(3.2rem, 8.6vw, 8.4rem)
+        }
+
+        .final .lede {
+            color: #b9bcc0;
+            margin-bottom: 28px
+        }
+
+        .final .ghost {
+            position: absolute;
+            right: -10%;
+            bottom: -18%;
+            width: min(56vw, 760px);
+            opacity: .09;
+            pointer-events: none
+        }
+
+        .final .ghost * {
+            stroke: var(--paper) !important;
+            fill: none !important
+        }
+
+        .final .ghost text {
+            display: none
+        }
+
+        /* footer */
+        footer {
+            background: #0f1011;
+            color: #c7c9cc;
+            padding-block: 64px 32px
+        }
+
+        .ft-g {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) repeat(4, minmax(0, 1fr));
+            gap: 32px
+        }
+
+        .ft-g h4 {
+            font: 500 12px var(--f-mono);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #7f8287;
+            margin: 0 0 14px
+        }
+
+        .ft-g ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: grid;
+            gap: 9px;
+            font-size: 14.5px
+        }
+
+        .ft-g a {
+            text-decoration: none
+        }
+
+        .ft-g a:hover {
+            color: var(--orange)
+        }
+
+        .ft-b p {
+            max-width: 34ch;
+            font-size: 14.5px;
+            color: #8f9297;
+            margin-top: 16px
+        }
+
+        .ft-low {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 56px;
+            padding-top: 20px;
+            border-top: 1px solid #24262a;
+            font-size: 13px;
+            color: #7f8287
+        }
+
+        .ft-low nav {
+            display: flex;
+            gap: 20px
+        }
+
+        .ft-low a {
+            text-decoration: none
+        }
+
+        .ft-low a:hover {
+            color: var(--paper)
+        }
+
+        .ft-word {
+            display: block;
+            width: 100%;
+            height: auto;
+            margin-top: 48px
+        }
+
+        .ft-word text {
+            font: 800 100px var(--f-display);
+            font-stretch: 68%;
+            fill: #1b1c1f
+        }
+
+        /* dialog */
+        dialog {
+            border: 0;
+            padding: 0;
+            max-width: min(1040px, calc(100vw - 32px));
+            width: 100%;
+            background: var(--paper);
+            color: var(--ink)
+        }
+
+        dialog::backdrop {
+            background: rgba(15, 16, 17, .72)
+        }
+
+        .dlg {
+            display: grid;
+            grid-template-columns: minmax(0, 7fr) minmax(0, 5fr)
+        }
+
+        .dlg .plate {
+            aspect-ratio: 1/1
+        }
+
+        .dlg .plate .dw {
+            height: 100%
+        }
+
+        .dlg-b {
+            padding: clamp(20px, 3vw, 36px);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            min-width: 0
+        }
+
+        .dlg-b h3 {
+            font: 800 clamp(1.8rem, 3vw, 2.6rem)/.95 var(--f-display);
+            font-stretch: 75%;
+            text-transform: uppercase;
+            margin: 0
+        }
+
+        .dlg-b .spec div {
+            border-color: var(--rule)
+        }
+
+        .dlg-b .spec dt {
+            color: var(--mute)
+        }
+
+        .x {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--rule);
+            background: var(--paper);
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            z-index: 2
+        }
+
+        .x:hover {
+            border-color: var(--ink)
+        }
+
+        /* responsive */
+        @media (max-width:1100px) {
+            .nav {
+                gap: 20px
+            }
+
+            .pgrid {
+                grid-template-columns: repeat(3, minmax(0, 1fr))
+            }
+
+            .tr-g {
+                grid-template-columns: repeat(3, minmax(0, 1fr))
+            }
+
+            .tr:nth-child(4) {
+                border-left: 0;
+                padding-left: 0
+            }
+
+            .ft-g {
+                grid-template-columns: repeat(4, minmax(0, 1fr))
+            }
+
+            .ft-b {
+                grid-column: 1/-1
+            }
+        }
+
+        @media (max-width:900px) {
+
+            .nav,
+            .hdr-r a.t,
+            .hdr-r .btn {
+                display: none
+            }
+
+            .menu-b {
+                display: block
+            }
+
+            .mnav {
+                position: fixed;
+                inset: 0;
+                z-index: 49;
+                background: var(--ink);
+                color: var(--paper);
+                padding: calc(90px + env(safe-area-inset-top, 0px)) var(--gut) 32px;
+                display: grid;
+                align-content: start;
+                gap: 4px
+            }
+
+            .mnav[hidden] {
+                display: none
+            }
+
+            .mnav a {
+                font: 800 2.4rem/1.15 var(--f-display);
+                font-stretch: 75%;
+                text-transform: uppercase;
+                text-decoration: none;
+                padding: 6px 0;
+                border-bottom: 1px solid #2e3034
+            }
+
+            .mnav .btn {
+                margin-top: 24px;
+                justify-content: center;
+                font-size: 16px
+            }
+
+            .hero-g {
+                grid-template-columns: 1fr;
+                padding-top: 32px
+            }
+
+            .hero-c {
+                padding-bottom: 0
+            }
+
+            .hero-plate {
+                margin-inline: calc(-1 * var(--gut))
+            }
+
+            .hero-meta {
+                padding-inline: var(--gut)
+            }
+
+            .hero-band {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .hero-band div:nth-child(2) {
+                border-right: 0
+            }
+
+            .hero-band div:nth-child(n+3) {
+                border-top: 1px solid #2e3034
+            }
+
+            .sec-h {
+                grid-template-columns: 1fr;
+                gap: 20px
+            }
+
+            .cats {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .fcard {
+                grid-template-columns: 1fr
+            }
+
+            .rail {
+                grid-auto-columns: min(84vw, 520px)
+            }
+
+            .st,
+            .st.flip {
+                grid-template-columns: 1fr;
+                min-height: 0
+            }
+
+            .st.flip .st-img {
+                order: 0
+            }
+
+            .st-img {
+                aspect-ratio: 4/3
+            }
+
+            .apps {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .app .plate {
+                aspect-ratio: 4/3
+            }
+
+            .fd-g {
+                grid-template-columns: 1fr
+            }
+
+            .tasks {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                column-gap: 20px
+            }
+
+            .fd-list {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .tech-g {
+                grid-template-columns: 1fr
+            }
+
+            .pgrid {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .final-g {
+                grid-template-columns: 1fr
+            }
+
+            .dlg {
+                grid-template-columns: 1fr
+            }
+
+            .dlg .plate {
+                aspect-ratio: 4/3
+            }
+        }
+
+        @media (max-width:560px) {
+            .hero h1 {
+                font-size: clamp(2.9rem, 15vw, 4.4rem)
+            }
+
+            .tasks {
+                grid-template-columns: 1fr
+            }
+
+            .fd-list {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px
+            }
+
+            .fd-list>*:nth-child(3) {
+                display: none
+            }
+
+            .apps {
+                grid-template-columns: 1fr
+            }
+
+            .tr-g {
+                grid-template-columns: 1fr
+            }
+
+            .tr+.tr,
+            .tr:nth-child(4) {
+                border-left: 0;
+                padding-left: 0;
+                border-top: 1px solid var(--rule)
+            }
+
+            .ft-g {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+
+            .spec div {
+                grid-template-columns: 1fr;
+                gap: 6px
+            }
+
+            .gbar-r .sel {
+                flex: 1 1 100%
+            }
+
+            .sel select {
+                flex: 1
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+            html {
+                scroll-behavior: auto
+            }
+
+            *,
+            *::before,
+            *::after {
+                transition: none !important;
+                animation: none !important
+            }
+        }
+    </style>
+
+    <header class="hdr" id="hdr">
+        <div class="wrap">
+            <a class="logo" href="#top" aria-label="DAIIFREIGHT home"><i></i>DAIIFREIGHT</a>
+            <nav class="nav" aria-label="Primary">
+                <a href="#products">Products</a>
+                <a href="#applications">Solutions</a>
+                <a href="#technology">Technology</a>
+                <a href="#support">Resources</a>
+                <a href="#about">About</a>
+            </nav>
+            <div class="hdr-r">
+                <a class="t" href="#finder">Find a Product</a>
+                <a class="btn btn-p" href="#contact">Contact</a>
+                <button class="menu-b" id="menuB" aria-expanded="false" aria-controls="mnav"
+                    aria-label="Open menu"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+    <nav class="mnav" id="mnav" hidden aria-label="Mobile">
+        <a href="#products">Products</a><a href="#applications">Solutions</a><a href="#technology">Technology</a><a
+            href="#support">Resources</a><a href="#about">About</a><a href="#finder">Find a Product</a>
+        <a class="btn btn-p" href="#contact">Contact DAIIFREIGHT</a>
+    </nav>
+
+    <main id="top">
+        <!-- 2 HERO -->
+        <section class="hero" style="padding-bottom:0">
+            <div class="wrap">
+                <div class="hero-g">
+                    <div class="hero-c">
+                        <p class="eyebrow" style="color:var(--mute-d)"><b>■</b>&nbsp; Professional plumbing tools</p>
+                        <h1 class="disp">Built for the toughest <em>pipelines.</em></h1>
+                        <p class="lede">Professional plumbing tools engineered for precision, durability and demanding
+                            everyday work.</p>
+                        <div class="cta-row">
+                            <a class="btn btn-p" href="#products">Explore Products <svg class="arr" viewBox="0 0 14 10">
+                                    <path d="M0 5h12M8 1l4 4-4 4" fill="none" stroke="currentColor"
+                                        stroke-width="1.6" />
+                                </svg></a>
+                            <a class="btn btn-g" href="#finder">Find Your Tool</a>
+                        </div>
+                    </div>
+                    <div class="hero-plate">
+                        <div class="plate crop" data-photo="hero-pipe-wrench">
+                            <svg class="dw" id="heroDw" viewBox="20 20 380 220" role="img"
+                                aria-label="Heavy-duty pipe wrench, side elevation"></svg>
+                        </div>
+                        <div class="hero-meta"><span class="cap">Plate 01 — Heavy-duty pipe wrench</span><span
+                                class="cap">Side elevation</span></div>
+                    </div>
+                </div>
+                <div class="hero-band">
+                    <div><b>Gripping &amp; turning</b><span>Pipe, adjustable &amp; plier wrenches</span></div>
+                    <div><b>Cutting</b><span>Hacksaws and compound snips</span></div>
+                    <div><b>Water &amp; cleaning</b><span>Surface pumps and pressure washers</span></div>
+                    <div><b>Openings &amp; set-out</b><span>Core bits, levels and measures</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3 CATEGORIES -->
+        <section id="products">
+            <div class="wrap">
+                <div class="sec-h">
+                    <h2 class="disp">Professional tools.<br>Serious performance.</h2>
+                    <div class="r">
+                        <p class="eyebrow"><b>■</b>&nbsp; The range</p>
+                        <p class="lede">Eight families of tools that follow a plumbing job from setting out the run to
+                            the final tightened joint. Pick a family to browse the range.</p>
+                    </div>
+                </div>
+                <div class="cats" id="cats"></div>
+            </div>
+        </section>
+
+        <!-- 4 FEATURED -->
+        <section class="feat" aria-labelledby="featH">
+            <div class="wrap">
+                <div class="sec-h">
+                    <div style="display:grid;gap:18px">
+                        <p class="eyebrow"><b>■</b>&nbsp; Featured</p>
+                        <h2 class="disp" id="featH">From the catalogue</h2>
+                    </div>
+                    <div class="r" style="justify-items:end">
+                        <div class="rail-ctl">
+                            <button id="railP" aria-label="Previous product"><svg class="arr" viewBox="0 0 14 10"
+                                    style="transform:scaleX(-1)">
+                                    <path d="M0 5h12M8 1l4 4-4 4" fill="none" stroke="currentColor"
+                                        stroke-width="1.6" />
+                                </svg></button>
+                            <button id="railN" aria-label="Next product"><svg class="arr" viewBox="0 0 14 10">
+                                    <path d="M0 5h12M8 1l4 4-4 4" fill="none" stroke="currentColor"
+                                        stroke-width="1.6" />
+                                </svg></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rail" id="rail" tabindex="0" aria-label="Featured products"></div>
+        </section>
+
+        <!-- 5 STORY -->
+        <section class="story" id="technology-story">
+            <div class="st">
+                <div class="st-img" data-photo="jaw-closeup"><svg class="dw" id="stJaw" viewBox="228 44 156 180"
+                        preserveAspectRatio="xMidYMid meet" role="img"
+                        aria-label="Close-up of pipe wrench jaws and adjusting nut"></svg><span class="cap">Detail —
+                        hook jaw, heel jaw, adjusting nut</span></div>
+                <div class="st-t">
+                    <p class="eyebrow"><b>■</b>&nbsp; Precision</p>
+                    <h2 class="disp">Precision where it matters.</h2>
+                    <p class="lede">A pipe wrench works because of a small amount of play. The hook jaw rocks slightly
+                        in the frame, so turning force pulls the teeth tighter onto the pipe instead of letting them
+                        slip.</p>
+                    <ul class="pts">
+                        <li><span>A</span>Angled teeth bite in the direction of turn and release on the back-stroke.
+                        </li>
+                        <li><span>B</span>A knurled adjusting nut sets the opening with one thumb.</li>
+                        <li><span>C</span>A spring keeps the hook jaw ready to re-grip between strokes.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="st flip dark">
+                <div class="st-img" data-photo="in-use-pipe-run"><svg class="dw" id="stUse" viewBox="0 0 400 300"
+                        preserveAspectRatio="xMidYMid slice" role="img"
+                        aria-label="Pipe wrench gripping a steel pipe on a pipe run"></svg><span class="cap">In use —
+                        making up a threaded joint</span></div>
+                <div class="st-t">
+                    <p class="eyebrow"><b>■</b>&nbsp; Daily work</p>
+                    <h2 class="disp">Built for daily work.</h2>
+                    <p class="lede">Most joints are made in awkward places: under a sink, against a wall, overhead in a
+                        plant room. The tools are shaped for short swings, one-handed adjustment and a firm hold when
+                        you can't see the jaw.</p>
+                    <ul class="pts">
+                        <li><span>—</span>Handles sized for gloved hands.</li>
+                        <li><span>—</span>Hang holes for van racking and workshop boards.</li>
+                        <li><span>—</span>Clear part markings so the right tool is picked first time.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="st">
+                <div class="st-img" data-photo="exploded-components"><svg class="dw" id="stExp" viewBox="0 10 420 260"
+                        role="img" aria-label="Exploded view of pipe wrench components"></svg><span class="cap">Exploded
+                        view — five serviceable parts</span></div>
+                <div class="st-t">
+                    <p class="eyebrow"><b>■</b>&nbsp; Construction</p>
+                    <h2 class="disp">Engineered to last.</h2>
+                    <p class="lede">A tool that is used every day wears. The parts that take the wear can be inspected
+                        and replaced, so the handle and frame keep working long after the first set of teeth.</p>
+                    <ul class="pts">
+                        <li><span>1</span>Hook jaw</li>
+                        <li><span>2</span>Adjusting nut</li>
+                        <li><span>3</span>Heel jaw</li>
+                        <li><span>4</span>Jaw spring</li>
+                        <li><span>5</span>Frame and handle</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6 REAL-WORLD USE -->
+        <section id="applications">
+            <div class="wrap">
+                <div class="sec-h">
+                    <h2 class="disp">Where the work happens</h2>
+                    <div class="r">
+                        <p class="eyebrow"><b>■</b>&nbsp; Applications</p>
+                        <p class="lede">The same core kit covers four kinds of job. Each one leans on a different part
+                            of the range.</p>
+                    </div>
+                </div>
+                <div class="apps" id="apps"></div>
+            </div>
+        </section>
+
+        <!-- 7 FINDER -->
+        <section class="finder" id="finder">
+            <div class="wrap">
+                <div class="sec-h">
+                    <h2 class="disp">Find the right tool</h2>
+                    <div class="r">
+                        <p class="eyebrow"><b>■</b>&nbsp; Product finder</p>
+                        <p class="lede">Start from the task. We'll show the tools made for it and what to look for when
+                            choosing.</p>
+                    </div>
+                </div>
+                <div class="fd-g">
+                    <div>
+                        <p class="q" id="fdQ">What are you working on?</p>
+                        <div class="tasks" id="tasks" role="group" aria-labelledby="fdQ"></div>
+                    </div>
+                    <div class="fd-out" aria-live="polite">
+                        <div class="fd-note"><span class="eyebrow" id="fdK">Cutting</span>
+                            <p id="fdTip"></p>
+                        </div>
+                        <div class="fd-list" id="fdList"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8 TECHNICAL -->
+        <section class="tech" id="technology">
+            <div class="wrap">
+                <div class="sec-h">
+                    <h2 class="disp">Engineered for the work.</h2>
+                    <div class="r">
+                        <p class="eyebrow"><b>■</b>&nbsp; Technical</p>
+                        <p class="lede">Every product is documented with its parts, intended applications and the
+                            materials it is meant to work on. Exact dimensions and ratings are published per model on
+                            its data sheet.</p>
+                    </div>
+                </div>
+                <div class="tabs" role="tablist" id="tabs"></div>
+                <div class="tech-g">
+                    <div class="plate crop"><svg class="dw" id="techDw" viewBox="0 0 400 300" role="img"></svg></div>
+                    <div>
+                        <dl class="spec" id="techSpec"></dl>
+                        <p class="spec-note">Dimensions marked with letters are given in millimetres on each model's
+                            data sheet, available from Resources.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 10 GRID -->
+        <section class="grid-sec" id="all">
+            <div class="wrap">
+                <div class="sec-h" style="margin-bottom:8px">
+                    <h2 class="disp">The full range</h2>
+                    <div class="r">
+                        <p class="lede">Search by name or filter by family and application.</p>
+                    </div>
+                </div>
+                <div class="gbar">
+                    <div class="gbar-r">
+                        <label class="search" for="q"><svg width="16" height="16" viewBox="0 0 16 16"
+                                aria-hidden="true">
+                                <circle cx="7" cy="7" r="5.2" fill="none" stroke="currentColor" stroke-width="1.5" />
+                                <path d="M11 11l4 4" stroke="currentColor" stroke-width="1.5" />
+                            </svg><input id="q" type="search" placeholder="Search tools, e.g. wrench, pump, level"
+                                autocomplete="off"></label>
+                        <label class="sel" for="appSel">Application <select id="appSel">
+                                <option value="all">All applications</option>
+                            </select></label>
+                        <span class="count" id="count"></span>
+                    </div>
+                    <div class="chips" id="chips" role="group" aria-label="Product family"></div>
+                </div>
+                <div class="pgrid" id="pgrid"></div>
+                <p class="empty" id="empty" hidden>No tools match that search. Try a broader word such as “wrench” or
+                    clear the filters.</p>
+            </div>
+        </section>
+
+        <!-- 11 TRUST -->
+        <section class="trust" id="support">
+            <div class="wrap">
+                <div class="sec-h">
+                    <h2 class="disp">Designed for professionals.<br>Built for demanding work.</h2>
+                    <div class="r">
+                        <p class="lede">What you can expect from every tool that carries the DAIIFREIGHT name.</p>
+                    </div>
+                </div>
+                <div class="tr-g">
+                    <div class="tr"><svg class="ic" viewBox="0 0 28 28">
+                            <rect x="4" y="4" width="20" height="20" />
+                            <path class="o" d="M9 14l4 4 7-8" />
+                        </svg>
+                        <h3>Product quality</h3>
+                        <p>Each model is checked against its specification before it ships.</p>
+                    </div>
+                    <div class="tr"><svg class="ic" viewBox="0 0 28 28">
+                            <circle cx="14" cy="14" r="9" />
+                            <circle class="o" cx="14" cy="14" r="3" />
+                            <path d="M14 2v5M14 21v5M2 14h5M21 14h5" />
+                        </svg>
+                        <h3>Engineering</h3>
+                        <p>Tools are designed around the job and the material they meet, not around a price point.</p>
+                    </div>
+                    <div class="tr"><svg class="ic" viewBox="0 0 28 28">
+                            <path d="M3 18h22M3 10h22" />
+                            <path class="o" d="M10 6v16M18 6v16" />
+                        </svg>
+                        <h3>Professional applications</h3>
+                        <p>Residential, commercial, workshop and industrial work, covered by one range.</p>
+                    </div>
+                    <div class="tr"><svg class="ic" viewBox="0 0 28 28">
+                            <path d="M5 20v-6a9 9 0 0118 0v6" />
+                            <rect class="o" x="3" y="18" width="5" height="7" />
+                            <rect class="o" x="20" y="18" width="5" height="7" />
+                        </svg>
+                        <h3>Support</h3>
+                        <p>Help choosing tools, replacement parts and after-sales questions from people who know the
+                            range.</p>
+                    </div>
+                    <div class="tr"><svg class="ic" viewBox="0 0 28 28">
+                            <path d="M7 3h10l5 5v17H7z" />
+                            <path d="M17 3v5h5" />
+                            <path class="o" d="M11 14h7M11 18h7M11 22h4" />
+                        </svg>
+                        <h3>Documentation</h3>
+                        <p>Data sheets, parts diagrams and catalogues for every product in Resources.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 12 FINAL CTA -->
+        <section class="final" id="contact">
+            <svg class="dw ghost" id="ghostDw" viewBox="20 20 380 220" aria-hidden="true"></svg>
+            <div class="wrap final-g" style="position:relative">
+                <h2 class="disp">Ready for the next job?</h2>
+                <div>
+                    <p class="lede">Explore professional tools built for real work, or talk to us about stocking and
+                        supplying the range.</p>
+                    <div class="cta-row">
+                        <a class="btn btn-p" href="#products">Explore Products <svg class="arr" viewBox="0 0 14 10">
+                                <path d="M0 5h12M8 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" />
+                            </svg></a>
+                        <a class="btn btn-g" href="#footer">Contact DAIIFREIGHT</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 13 FOOTER -->
+    <footer id="footer">
+        <div class="wrap">
+            <div class="ft-g">
+                <div class="ft-b"><a class="logo" href="#top"><i></i>DAIIFREIGHT</a>
+                    <p>Professional plumbing tools for gripping, cutting, cleaning, pumping and setting out.</p>
+                </div>
+                <div>
+                    <h4>Products</h4>
+                    <ul id="ftCats"></ul>
+                </div>
+                <div>
+                    <h4>Solutions</h4>
+                    <ul>
+                        <li><a href="#applications">Residential installation</a></li>
+                        <li><a href="#applications">Commercial maintenance</a></li>
+                        <li><a href="#applications">Workshop</a></li>
+                        <li><a href="#applications">Industrial pipework</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#support">Data sheets</a></li>
+                        <li><a href="#support">Parts diagrams</a></li>
+                        <li><a href="#support">Catalogue</a></li>
+                        <li><a href="#finder">Product finder</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#support">Support</a></li>
+                        <li><a href="#contact">Become a distributor</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="ft-low"><span>© 2026 DAIIFREIGHT. All rights reserved.</span>
+                <nav><a href="#footer">Privacy</a><a href="#footer">Terms</a><a href="#support">Support</a></nav>
+            </div>
+            <svg class="ft-word" viewBox="0 0 1000 120" aria-hidden="true"><text x="0" y="104" textLength="1000"
+                    lengthAdjust="spacingAndGlyphs" style="font-size:132px">DAIIFREIGHT</text></svg>
+        </div>
+    </footer>
+
+    <dialog id="pd" aria-labelledby="pdName">
+        <button class="x" id="pdX" aria-label="Close"><svg width="14" height="14" viewBox="0 0 14 14">
+                <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.6" />
+            </svg></button>
+        <div class="dlg">
+            <div class="plate crop"><svg class="dw" id="pdDw" viewBox="0 0 400 300"></svg></div>
+            <div class="dlg-b">
+                <p class="eyebrow" id="pdCat"></p>
+                <h3 id="pdName"></h3>
+                <p id="pdDesc" style="color:var(--mute)"></p>
+                <dl class="spec" id="pdSpec"></dl>
+                <a class="btn btn-p" href="#contact" id="pdCta" style="align-self:flex-start;margin-top:auto">Request
+                    data sheet</a>
+            </div>
+        </div>
+    </dialog>
+
+    <script>
+        (() => {
+            const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const T = (x1, x2, y, h, s = 6) => { let d = `M${x1},${y}`; for (let x = x1; x < x2; x += s) { d += ` L${x + s / 2},${y + h} L${x + s},${y}` } return d };
+            const range = (a, b, s) => { const r = []; for (let v = a; v <= b; v += s)r.push(v); return r };
+
+            /* ---------- technical drawings (catalogue line style) ---------- */
+            const W = { // pipe wrench parts, grouped for the exploded view
+                handle: `<g data-p="handle"><path class="fo" d="M36,187 L304,177 L304,203 L36,197 Z"/><path class="hl" d="M64,190 L290,182 M64,194 L290,198"/><circle class="fp" cx="52" cy="192" r="5"/></g>`,
+                frame: `<g data-p="frame"><path class="fs" d="M298,126 L356,126 L356,214 L298,214 Z"/><path class="hl" d="M304,132 L350,132 M304,208 L350,208"/></g>`,
+                heel: `<g data-p="heel"><path class="fs" d="M248,130 L306,130 L306,150 L260,150 Z"/><path class="ln" d="${T(250, 304, 130, -5)}"/></g>`,
+                hook: `<g data-p="hook"><rect class="fs" x="322" y="88" width="18" height="96"/>${range(98, 180, 5).map(y => `<path class="hl" d="M322,${y} L340,${y + 2}"/>`).join('')}<path class="fs" d="M246,60 L346,60 L346,94 L258,94 L246,82 Z"/><path class="ln" d="${T(258, 322, 94, 5)}"/><path class="hl" d="M254,68 L338,68"/></g>`,
+                nut: `<g data-p="nut"><rect class="fd" x="310" y="150" width="42" height="28" rx="3"/>${range(314, 348, 4).map(x => `<path class="kn" d="M${x},152 L${x},176"/>`).join('')}</g>`,
+                spring: `<g data-p="spring"><path class="ln" d="M347,182 L353,186 L347,190 L353,194 L347,198 L353,202 L347,206"/></g>`
+            };
+            const wrenchInner = W.handle + W.frame + W.hook + W.nut + W.heel + W.spring;
+
+            const D = {
+                'pipe-wrench': wrenchInner + `<path class="cl" d="M30,192 L370,192"/>`,
+                'adj-wrench': `<path class="fs" d="M150,128 L372,136 L372,152 L150,154 Z"/>
+   <path class="fo" d="M262,131 L374,135 C384,135 388,144 384,152 L262,156 Z"/><circle class="fp" cx="364" cy="144" r="5"/>
+   <path class="fs" d="M58,94 L148,94 C166,104 170,134 154,156 L112,156 L112,122 L58,122 Z"/>
+   <path class="fs" d="M60,154 L110,154 L110,176 L72,178 L60,168 Z"/>
+   <rect class="fd" x="114" y="158" width="26" height="16" rx="3"/>${range(118, 136, 4).map(x => `<path class="kn" d="M${x},160 L${x},172"/>`).join('')}
+   <path class="hl" d="M64,100 L140,100"/><path class="cl" d="M40,138 L390,144"/>`,
+                'pliers': `<path class="fs" d="M156,132 L372,116 L374,128 L160,150 Z"/><path class="fo" d="M250,124 L372,114 C382,114 384,128 376,130 L254,140 Z"/>
+   <path class="fs" d="M152,146 L370,198 L366,210 L148,158 Z"/><path class="fo" d="M246,170 L368,198 C378,201 374,214 364,212 L242,184 Z"/>
+   <path class="fs" d="M154,130 C124,112 92,98 56,100 L60,114 C92,114 118,126 140,146 Z"/>
+   <path class="fs" d="M150,152 C122,166 92,176 58,172 L58,158 C90,160 116,150 138,136 Z"/>
+   <path class="ln" d="${T(62, 128, 112, 4, 6)}"/><circle class="fd" cx="150" cy="142" r="8"/><circle class="fp" cx="150" cy="142" r="3"/>
+   ${[0, 1, 2, 3].map(i => `<path class="hl" d="M${166 + i * 7},134 A10,10 0 0 1 ${166 + i * 7},150"/>`).join('')}`,
+                'hacksaw': `<path class="fs" d="M50,76 L340,76 L340,92 L66,92 L66,190 L50,190 Z"/>
+   <path class="fs" d="M326,92 L340,92 L340,200 L326,200 Z"/>
+   <rect class="fs" x="48" y="186" width="294" height="8"/><path class="ln" d="${T(54, 336, 194, 4, 5)}"/>
+   <path class="fo" d="M332,150 C362,148 382,172 382,204 L388,262 L354,262 L346,214 L332,204 Z"/>
+   <rect class="fd" x="40" y="196" width="18" height="10" rx="2"/><circle class="fd" cx="49" cy="214" r="7"/>
+   <path class="hl" d="M58,84 L332,84"/>`,
+                'snips': `<path class="fs" d="M50,141 C88,126 128,120 162,124 L164,140 Z"/><path class="fs" d="M50,143 C88,156 128,160 162,158 L164,142 Z"/>
+   <path class="fd" d="M158,124 L202,112 L206,130 L164,140 Z"/><path class="fd" d="M158,158 L202,170 L206,152 L164,142 Z"/>
+   <path class="fs" d="M198,112 L372,88 L376,106 L206,130 Z"/><path class="fs" d="M198,170 L370,198 L366,214 L206,152 Z"/>
+   <path class="fo" d="M262,103 L372,88 C382,88 384,104 376,106 L266,120 Z"/><path class="fo" d="M262,180 L370,198 C380,200 374,216 366,214 L258,196 Z"/>
+   <circle class="fp" cx="162" cy="141" r="4"/><circle class="fp" cx="200" cy="121" r="4"/><circle class="fp" cx="200" cy="161" r="4"/>
+   <path class="ln" d="M232,118 C244,132 244,152 232,166"/>`,
+                'clamp': `<rect class="fs" x="40" y="80" width="322" height="16"/>${range(70, 350, 8).map(x => `<path class="hl" d="M${x},96 L${x + 3},92"/>`).join('')}
+   <path class="fs" d="M40,80 L64,80 L64,210 L40,210 Z"/><rect class="fd" x="64" y="178" width="10" height="30"/>
+   <path class="fs" d="M234,74 L262,74 L262,212 L234,212 Z"/>
+   <rect class="fs" x="118" y="188" width="176" height="10"/>${range(124, 290, 6).map(x => `<path class="hl" d="M${x},188 L${x + 3},198"/>`).join('')}
+   <rect class="fd" x="108" y="178" width="10" height="30"/><rect class="fo" x="276" y="179" width="92" height="28" rx="12"/>`,
+                'washer': `<path class="fs" d="M168,72 L168,28 L250,28 L250,72" fill="none" style="stroke-width:7;stroke:#3a3d41"/>
+   <rect class="fd" x="128" y="70" width="156" height="168" rx="16"/><path class="fo" d="M128,120 L128,86 C128,76 136,70 146,70 L266,70 C276,70 284,76 284,86 L284,120 Z"/>
+   <circle class="fs" cx="206" cy="176" r="32"/><circle class="fd" cx="206" cy="176" r="10"/><path class="hl" d="M206,148 L206,204 M178,176 L234,176"/>
+   <circle class="fs" cx="150" cy="248" r="20"/><circle class="fd" cx="150" cy="248" r="6"/><circle class="fs" cx="262" cy="248" r="20"/><circle class="fd" cx="262" cy="248" r="6"/>
+   <rect class="fs" x="284" y="196" width="18" height="10"/><circle class="fs" cx="252" cy="100" r="7"/>
+   <path class="fd" d="M314,96 L326,96 L330,166 L340,170 L338,186 L318,184 Z"/><path class="ln" d="M320,184 L322,262" style="stroke-width:3"/>`,
+                'pump': `<rect class="fd" x="56" y="214" width="278" height="10"/><rect class="fd" x="66" y="224" width="22" height="10"/><rect class="fd" x="300" y="224" width="22" height="10"/>
+   <path class="fs" d="M44,120 L70,112 L70,206 L44,198 Z"/>${range(52, 64, 4).map(x => `<path class="hl" d="M${x},122 L${x},196"/>`).join('')}
+   <rect class="fd" x="70" y="108" width="152" height="100" rx="6"/>${range(82, 210, 8).map(x => `<path class="kn" d="M${x},112 L${x},204"/>`).join('')}
+   <rect class="fo" x="108" y="84" width="64" height="26" rx="2"/>
+   <path class="fs" d="M222,118 L272,118 C304,118 324,138 324,166 C324,196 304,212 272,212 L222,212 Z"/>
+   <rect class="fs" x="324" y="150" width="28" height="30"/><path class="hl" d="M332,150 L332,180 M340,150 L340,180"/>
+   <rect class="fs" x="250" y="88" width="28" height="30"/><path class="hl" d="M250,96 L278,96 M250,104 L278,104"/>
+   <circle class="fd" cx="300" cy="134" r="5"/><path class="cl" d="M30,166 L370,166"/>`,
+                'core': `<path class="cl" d="M30,150 L388,150"/><rect class="fo" x="92" y="112" width="228" height="76"/>
+   ${[0, 1, 2, 3, 4].map(i => `<rect class="fd" x="62" y="${112 + i * 15.6}" width="32" height="11"/>`).join('')}
+   <path class="fs" d="M320,112 L342,132 L342,168 L320,188 Z"/><rect class="fs" x="342" y="134" width="34" height="32"/>${range(346, 372, 4).map(x => `<path class="hl" d="M${x},134 L${x + 2},166"/>`).join('')}
+   <path class="hl" d="M100,118 L312,118"/>`,
+                'tape': `<rect class="fs" x="30" y="214" width="92" height="12"/>${range(36, 118, 6).map((x, i) => `<path class="hl" d="M${x},214 L${x},${i % 5 ? 219 : 222}"/>`).join('')}<rect class="fd" x="24" y="206" width="8" height="26"/>
+   <rect class="fd" x="108" y="88" width="156" height="156" rx="30"/><rect class="fo" x="118" y="98" width="136" height="136" rx="22"/>
+   <circle class="fd" cx="186" cy="166" r="28"/><circle class="fs" cx="186" cy="166" r="8"/>
+   <rect class="fs" x="198" y="78" width="40" height="12" rx="4"/><rect class="fs" x="262" y="110" width="10" height="96" rx="3"/>`,
+                'level': `<rect class="fs" x="22" y="126" width="356" height="48"/><rect class="fo" x="22" y="126" width="18" height="48"/><rect class="fo" x="360" y="126" width="18" height="48"/>
+   <rect class="fp" x="174" y="134" width="52" height="32"/><rect class="fv" x="182" y="143" width="36" height="14" rx="7"/><path class="ln" d="M195,141 L195,159 M205,141 L205,159"/>
+   <circle class="fp" cx="76" cy="150" r="15"/><rect class="fv" x="70" y="140" width="12" height="20" rx="6"/>
+   <circle class="fp" cx="324" cy="150" r="15"/><rect class="fv" x="318" y="140" width="12" height="20" rx="6"/>
+   <rect class="fp" x="108" y="138" width="48" height="24" rx="12"/><rect class="fp" x="244" y="138" width="48" height="24" rx="12"/><path class="hl" d="M40,170 L360,170"/>`,
+                'glasses': `<path class="fd" d="M60,112 L340,112 L340,122 L60,122 Z"/>
+   <path class="fl" d="M76,120 C76,106 104,104 146,106 C184,108 194,118 194,136 C194,166 168,182 136,180 C98,178 76,158 76,120 Z"/>
+   <path class="fl" d="M324,120 C324,106 296,104 254,106 C216,108 206,118 206,136 C206,166 232,182 264,180 C302,178 324,158 324,120 Z"/>
+   <path class="fd" d="M186,120 C192,132 208,132 214,120 Z"/><path class="fs" d="M60,114 L22,122 L22,128 L60,122 Z"/><path class="fs" d="M340,114 L378,122 L378,128 L340,122 Z"/>
+   <path class="hl" d="M98,124 C120,118 150,118 172,128"/><path class="hl" d="M228,128 C250,118 280,118 302,124"/>`
+            };
+            // scene: wrench gripping a pipe on a run
+            D['grip-scene'] = `<path class="fs" d="M-20,98 L240,98 L240,122 L-20,122 Z" opacity=".9"/><path class="hl" d="M-20,104 L240,104"/>
+  <path class="fs" d="M306,98 L470,98 L470,122 L306,122 Z"/><rect class="fs" x="372" y="92" width="22" height="36"/>
+  <path class="fs" d="M60,122 L84,122 L84,320 L60,320 Z"/><rect class="fs" x="54" y="92" width="36" height="36"/>
+  <path class="hl" d="M-20,250 L470,250"/><path class="hl" d="M-20,262 L470,262"/>
+  ${range(240, 304, 4).map(x => `<path class="hl" d="M${x},98 L${x + 2},122"/>`).join('')}<path class="fs" d="M240,98 L306,98 L306,122 L240,122 Z" opacity=".55"/>
+  ${wrenchInner}`;
+
+            const svgIn = (id, x, y, w, h) => `<svg x="${x}" y="${y}" width="${w}" height="${h}" viewBox="0 0 400 300">${D[id]}</svg>`;
+            const SCN = {
+                res: svgIn('level', 10, 40, 380, 190) + svgIn('tape', 90, 150, 220, 150),
+                com: svgIn('pipe-wrench', 0, 10, 400, 220) + svgIn('adj-wrench', 60, 150, 300, 160),
+                shop: svgIn('clamp', 10, 0, 380, 200) + svgIn('hacksaw', 70, 140, 260, 170),
+                ind: svgIn('pump', 10, 10, 380, 220) + svgIn('core', 80, 170, 240, 140)
+            };
+
+            /* ---------- data ---------- */
+            const CATS = [
+                { id: 'grip', name: 'Wrenches & Gripping', hero: 'pipe-wrench', use: 'Gripping, holding and turning pipe, nuts, unions and fittings.' },
+                { id: 'cut', name: 'Cutting', hero: 'hacksaw', use: 'Straight cuts through metal pipe and rod; shaping sheet metal and duct.' },
+                { id: 'clean', name: 'Pressure Cleaning', hero: 'washer', use: 'Cleaning surfaces, equipment and drainage areas with pressurised water.' },
+                { id: 'pump', name: 'Water Pumps', hero: 'pump', use: 'Transferring and boosting clean water supply.' },
+                { id: 'drill', name: 'Core Drilling', hero: 'core', use: 'Cutting round openings through masonry and concrete for pipe penetrations.' },
+                { id: 'hold', name: 'Clamping', hero: 'clamp', use: 'Holding pipe and workpieces still while cutting, fitting or fixing.' },
+                { id: 'measure', name: 'Measuring & Layout', hero: 'level', use: 'Setting out runs, checking falls and aligning fixtures.' },
+                { id: 'safety', name: 'Safety', hero: 'glasses', use: 'Personal protection for cutting, drilling and cleaning work.' }
+            ];
+            const APPS = { res: 'Residential installation', com: 'Commercial maintenance', shop: 'Workshop', ind: 'Industrial pipework' };
+            const P = [
+                { id: 'pipe-wrench', cat: 'grip', name: 'Heavy-Duty Pipe Wrench', app: ['res', 'com', 'ind', 'shop'], tags: 'pipe wrench stillson thread', desc: 'Self-tightening hook jaw for gripping and turning threaded pipe and round fittings.' },
+                { id: 'adj-wrench', cat: 'grip', name: 'Adjustable Wrench', app: ['res', 'com', 'ind', 'shop'], tags: 'spanner shifter nut', desc: 'Worm-adjusted jaw for nuts, unions and compression fittings across a range of sizes.' },
+                { id: 'pliers', cat: 'grip', name: 'Water Pump Pliers', app: ['res', 'com', 'shop'], tags: 'tongue groove channel lock', desc: 'Tongue-and-groove pivot holds its setting for a steady grip on pipe, nuts and waste fittings.' },
+                { id: 'hacksaw', cat: 'cut', name: 'Hacksaw Frame', app: ['res', 'com', 'shop', 'ind'], tags: 'saw blade metal', desc: 'Rigid tensioned frame for straight cuts through metal pipe, conduit and threaded rod.' },
+                { id: 'snips', cat: 'cut', name: 'Aviation Snips', app: ['com', 'shop'], tags: 'tin snips sheet metal duct', desc: 'Compound-lever action cuts sheet metal, duct and flashing with less hand effort.' },
+                { id: 'washer', cat: 'clean', name: 'Induction High-Pressure Washer', app: ['com', 'ind'], tags: 'jet wash clean drain', desc: 'Mains-powered pressure washer for cleaning surfaces, plant and drainage areas.' },
+                { id: 'pump', cat: 'pump', name: 'Surface Water Pump', app: ['res', 'com', 'ind'], tags: 'booster transfer jet', desc: 'Electric surface pump for transferring and boosting a clean water supply.' },
+                { id: 'core', cat: 'drill', name: 'Diamond Core Bit', app: ['res', 'com', 'ind'], tags: 'core drill hole masonry concrete', desc: 'Segmented diamond crown cuts clean openings through masonry and concrete for pipe runs.' },
+                { id: 'clamp', cat: 'hold', name: 'Heavy-Duty Bar Clamp', app: ['shop', 'ind'], tags: 'f clamp vice hold', desc: 'Sliding jaw and screw handle hold pipe, brackets and workpieces steady during fitting.' },
+                { id: 'tape', cat: 'measure', name: 'Measuring Tape', app: ['res', 'com', 'shop', 'ind'], tags: 'tape measure rule', desc: 'Lockable steel blade with end hook for measuring pipe runs and fixture positions.' },
+                { id: 'level', cat: 'measure', name: 'Spirit Level', app: ['res', 'com', 'shop'], tags: 'level plumb fall gradient', desc: 'Level and plumb vials for setting fall on waste lines and aligning fixtures.' },
+                { id: 'glasses', cat: 'safety', name: 'Safety Glasses', app: ['res', 'com', 'shop', 'ind'], tags: 'eye protection ppe', desc: 'Wraparound eye protection for cutting, drilling and pressure-cleaning work.' }
+            ];
+            const byId = Object.fromEntries(P.map(p => [p.id, p]));
+            const catOf = id => CATS.find(c => c.id === id);
+
+            const SPEC = {
+                'pipe-wrench': {
+                    parts: ['Hook jaw', 'Adjusting nut', 'Heel jaw', 'Jaw spring', 'Frame and handle'], work: 'Threaded steel pipe, galvanised pipe, round fittings and bar.', avoid: 'Plated or polished finishes; the teeth will mark them. Use a strap or adjustable wrench there.', op: 'Self-tightening grip: force on the handle draws the jaws onto the pipe.', dims: ['A Overall length', 'B Maximum jaw opening'],
+                    call: [[292, 50, '1'], [362, 164, '2'], [250, 158, '3'], [364, 196, '4'], [120, 214, '5']], dim: `<path class="dim" d="M36,236 L356,236 M36,230 L36,242 M356,230 L356,242"/><text x="190" y="252">A</text><path class="dim" d="M236,94 L236,130 M230,94 L242,94 M230,130 L242,130"/><text x="222" y="116">B</text>`
+                },
+                'pliers': {
+                    parts: ['Serrated jaws', 'Tongue-and-groove pivot', 'Insulated grips'], work: 'Pipe, nuts, slip-joint and waste fittings, hose connections.', avoid: 'Not a substitute for a wrench on tight threaded joints.', op: 'Multi-position pivot; jaws stay parallel-ish across settings.', dims: ['A Overall length', 'B Jaw capacity'],
+                    call: [[86, 90, '1'], [150, 122, '2'], [320, 100, '3']], dim: `<path class="dim" d="M56,236 L380,236 M56,230 L56,242 M380,230 L380,242"/><text x="214" y="252">A</text>`
+                },
+                'clamp': {
+                    parts: ['Bar', 'Fixed jaw', 'Sliding jaw', 'Screw and pad', 'Handle'], work: 'Pipe sections, brackets, timber and steel workpieces.', avoid: 'Do not use to lift or suspend loads.', op: 'Sliding jaw locks on the bar under load; screw applies final pressure.', dims: ['A Clamping capacity', 'B Throat depth'],
+                    call: [[200, 70, '1'], [30, 150, '2'], [248, 64, '3'], [180, 222, '4'], [322, 224, '5']], dim: `<path class="dim" d="M74,250 L108,250 M74,244 L74,256 M108,244 L108,256"/><text x="86" y="268">A</text><path class="dim" d="M18,96 L18,178 M12,96 L24,96 M12,178 L24,178"/><text x="2" y="140">B</text>`
+                },
+                'core': {
+                    parts: ['Diamond segments', 'Barrel', 'Adapter / shank'], work: 'Brick, block, masonry and concrete for pipe and duct openings.', avoid: 'Not for metal. Check the drill and adapter match before use.', op: 'Cuts an annular groove and removes a solid core; diamond segments do the cutting.', dims: ['A Cutting diameter', 'B Usable depth'],
+                    call: [[76, 96, '1'], [206, 100, '2'], [360, 118, '3']], dim: `<path class="dim" d="M40,112 L40,188 M34,112 L46,112 M34,188 L46,188"/><text x="24" y="154">A</text><path class="dim" d="M62,214 L320,214 M62,208 L62,220 M320,208 L320,220"/><text x="188" y="232">B</text>`
+                }
+            };
+            const TECH = ['pipe-wrench', 'pliers', 'clamp', 'core'];
+
+            const TASKS = [
+                { k: 'cut', label: 'Cutting', ids: ['hacksaw', 'snips', 'clamp'], tip: 'For metal pipe and rod, a tensioned hacksaw gives the straightest cut; clamp the pipe first. For sheet metal and duct, use compound snips.' },
+                { k: 'clean', label: 'Cleaning', ids: ['washer', 'glasses', 'pliers'], tip: 'Pressure cleaning clears surfaces and drainage areas. Wear eye protection; use pliers to free stubborn waste fittings before flushing.' },
+                { k: 'grip', label: 'Gripping & turning', ids: ['pipe-wrench', 'adj-wrench', 'pliers'], tip: 'Use a pipe wrench on threaded steel pipe, an adjustable wrench on nuts and unions, and water pump pliers on waste and slip-joint fittings.' },
+                { k: 'pump', label: 'Water supply', ids: ['pump', 'pipe-wrench', 'adj-wrench'], tip: 'A surface pump transfers or boosts clean water. Make up its threaded connections with a pipe wrench and adjustable wrench.' },
+                { k: 'drill', label: 'Openings', ids: ['core', 'tape', 'level'], tip: 'Mark the centre with a tape and level, then core through masonry with a diamond bit matched to your drill.' },
+                { k: 'measure', label: 'Setting out', ids: ['level', 'tape', 'clamp'], tip: 'Measure runs with a lockable tape and set falls on waste lines with a spirit level. Clamp brackets in place before fixing.' }
+            ];
+
+            /* ---------- render helpers ---------- */
+            const drawing = (id, vb = '0 0 400 300') => `<svg class="dw" viewBox="${vb}" role="img" aria-label="${(byId[id] || {}).name || ''} technical drawing">${D[id]}</svg>`;
+            const card = p => `<button class="pc" data-open="${p.id}"><div class="plate" data-photo="${p.id}">${drawing(p.id)}</div>
+  <div class="row"><span class="eyebrow">${catOf(p.cat).name}</span></div><h3>${p.name}</h3><p>${p.desc}</p><span class="go">View product →</span></button>`;
+
+            // hero + ghost + story
+            document.getElementById('heroDw').innerHTML = D['pipe-wrench'];
+            document.getElementById('ghostDw').innerHTML = wrenchInner;
+            document.getElementById('stJaw').innerHTML = wrenchInner + `<text x="236" y="102" class="tag" style="font-size:7px">A</text><text x="358" y="160" class="tag" style="font-size:7px">B</text><text x="358" y="200" class="tag" style="font-size:7px">C</text>`;
+            document.getElementById('stUse').innerHTML = D['grip-scene'];
+            const exp = document.getElementById('stExp');
+            exp.innerHTML = wrenchInner + `<g id="expLab" style="transition:opacity .3s">
+  <text x="226" y="30" class="tag">1</text><text x="378" y="132" class="tag">2</text><text x="200" y="146" class="tag">3</text><text x="392" y="236" class="tag">4</text><text x="60" y="240" class="tag">5</text></g>`;
+
+            // categories
+            const counts = Object.fromEntries(CATS.map(c => [c.id, P.filter(p => p.cat === c.id).length]));
+            document.getElementById('cats').innerHTML = CATS.map(c => `<button class="cat" data-cat="${c.id}"><div class="plate" data-photo="cat-${c.id}">${drawing(c.hero)}</div><div class="meta"><h3>${c.name}</h3><span class="n">${String(counts[c.id]).padStart(2, '0')}</span></div></button>`).join('');
+            document.getElementById('ftCats').innerHTML = CATS.slice(0, 6).map(c => `<li><a href="#all" data-cat="${c.id}">${c.name}</a></li>`).join('');
+
+            // featured rail
+            const FEAT = ['pipe-wrench', 'core', 'pump', 'hacksaw', 'washer'];
+            document.getElementById('rail').innerHTML = FEAT.map(id => { const p = byId[id]; return `<article class="fcard"><div class="plate crop" data-photo="feat-${id}">${drawing(id)}</div><div class="body"><p class="eyebrow">${catOf(p.cat).name}</p><h3>${p.name}</h3><p>${p.desc}</p><button class="btn" data-open="${id}">View Product →</button></div></article>` }).join('');
+            const rail = document.getElementById('rail');
+            const step = () => rail.querySelector('.fcard').getBoundingClientRect().width + 24;
+            document.getElementById('railN').onclick = () => rail.scrollBy({ left: step(), behavior: RM ? 'auto' : 'smooth' });
+            document.getElementById('railP').onclick = () => rail.scrollBy({ left: -step(), behavior: RM ? 'auto' : 'smooth' });
+
+            // applications
+            const APPTXT = {
+                res: ['Residential installation', 'Kitchens, bathrooms and supply runs. Measuring, levelling and making up joints in tight spaces.'],
+                com: ['Commercial maintenance', 'Plant rooms, risers and washrooms. Reliable gripping tools for service and repair visits.'],
+                shop: ['Workshop', 'Preparing pipe and brackets at the bench: clamping, cutting and dry-fitting before site.'],
+                ind: ['Industrial pipework', 'Larger bore pipe, pumps and penetrations through structure.']
+            };
+            document.getElementById('apps').innerHTML = Object.entries(APPTXT).map(([k, [h, t]]) => `<a class="app" href="#all" data-app="${k}" style="text-decoration:none"><div class="plate crop" data-photo="app-${k}"><svg class="dw" viewBox="0 0 400 320" preserveAspectRatio="xMidYMid meet">${SCN[k]}</svg></div><p class="eyebrow"><b>■</b>&nbsp; ${P.filter(p => p.app.includes(k)).length} tools</p><h3>${h}</h3><p>${t}</p></a>`).join('');
+
+            // finder
+            const tasksEl = document.getElementById('tasks'), fdList = document.getElementById('fdList');
+            tasksEl.innerHTML = TASKS.map((t, i) => `<button class="task" data-task="${t.k}" aria-pressed="${i === 0}"><span class="k">0${i + 1}</span><span>${t.label}</span><span class="dot"></span></button>`).join('');
+            function setTask(k) {
+                const t = TASKS.find(x => x.k === k);
+                tasksEl.querySelectorAll('.task').forEach(b => b.setAttribute('aria-pressed', b.dataset.task === k));
+                document.getElementById('fdK').textContent = t.label;
+                document.getElementById('fdTip').textContent = t.tip;
+                fdList.classList.remove('anim'); void fdList.offsetWidth;
+                fdList.innerHTML = t.ids.map(id => card(byId[id])).join('');
+                if (!RM) fdList.classList.add('anim');
+            }
+            tasksEl.addEventListener('click', e => { const b = e.target.closest('.task'); if (b) setTask(b.dataset.task) });
+            setTask('cut'); fdList.classList.remove('anim');
+
+            // technical tabs
+            const tabs = document.getElementById('tabs');
+            tabs.innerHTML = TECH.map((id, i) => `<button class="tab" role="tab" aria-selected="${i === 0}" data-t="${id}">${byId[id].name}</button>`).join('');
+            function setTech(id) {
+                const s = SPEC[id];
+                tabs.querySelectorAll('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.t === id));
+                const dw = document.getElementById('techDw');
+                dw.setAttribute('aria-label', byId[id].name + ' with labelled parts');
+                dw.innerHTML = D[id] + s.dim + s.call.map(([x, y, n]) => `<g><circle cx="${x}" cy="${y}" r="9" style="fill:var(--orange);stroke:none"/><text x="${x}" y="${y + 4}" text-anchor="middle" style="fill:var(--ink);font-weight:500">${n}</text></g>`).join('');
+                document.getElementById('techSpec').innerHTML = `
+   <div><dt>Components</dt><dd><ol>${s.parts.map((p, i) => `<li><b>${i + 1}</b>${p}</li>`).join('')}</ol></dd></div>
+   <div><dt>Works on</dt><dd>${s.work}</dd></div>
+   <div><dt>Operation</dt><dd>${s.op}</dd></div>
+   <div><dt>Not for</dt><dd>${s.avoid}</dd></div>
+   <div><dt>Dimensions</dt><dd>${s.dims.join('<br>')}</dd></div>`;
+            }
+            tabs.addEventListener('click', e => { const b = e.target.closest('.tab'); if (b) setTech(b.dataset.t) });
+            tabs.addEventListener('keydown', e => { if (!['ArrowRight', 'ArrowLeft'].includes(e.key)) return; const bs = [...tabs.children]; let i = bs.findIndex(b => b.getAttribute('aria-selected') === 'true'); i = (i + (e.key === 'ArrowRight' ? 1 : -1) + bs.length) % bs.length; bs[i].focus(); setTech(bs[i].dataset.t) });
+            setTech('pipe-wrench');
+
+            // grid + filters
+            const st = { cat: 'all', app: 'all', q: '' };
+            const chips = document.getElementById('chips');
+            chips.innerHTML = `<button class="chip" data-c="all" aria-pressed="true">All tools</button>` + CATS.map(c => `<button class="chip" data-c="${c.id}" aria-pressed="false">${c.name}</button>`).join('');
+            const appSel = document.getElementById('appSel');
+            appSel.insertAdjacentHTML('beforeend', Object.entries(APPS).map(([k, v]) => `<option value="${k}">${v}</option>`).join(''));
+            function renderGrid() {
+                const q = st.q.trim().toLowerCase();
+                const list = P.filter(p => (st.cat === 'all' || p.cat === st.cat) && (st.app === 'all' || p.app.includes(st.app)) && (!q || (p.name + ' ' + p.tags + ' ' + catOf(p.cat).name + ' ' + p.desc).toLowerCase().includes(q)));
+                document.getElementById('pgrid').innerHTML = list.map(card).join('');
+                document.getElementById('empty').hidden = list.length > 0;
+                document.getElementById('count').textContent = `${list.length} of ${P.length} tools`;
+                chips.querySelectorAll('.chip').forEach(b => b.setAttribute('aria-pressed', b.dataset.c === st.cat));
+                appSel.value = st.app;
+            }
+            chips.addEventListener('click', e => { const b = e.target.closest('.chip'); if (b) { st.cat = b.dataset.c; renderGrid() } });
+            appSel.addEventListener('change', () => { st.app = appSel.value; renderGrid() });
+            document.getElementById('q').addEventListener('input', e => { st.q = e.target.value; renderGrid() });
+            renderGrid();
+            // category / application links jump into the filtered grid
+            document.addEventListener('click', e => {
+                const c = e.target.closest('[data-cat]'); const a = e.target.closest('[data-app]');
+                if (c) { e.preventDefault(); st.cat = c.dataset.cat; st.app = 'all'; st.q = ''; document.getElementById('q').value = ''; renderGrid(); document.getElementById('all').scrollIntoView({ behavior: RM ? 'auto' : 'smooth' }) }
+                else if (a) { e.preventDefault(); st.app = a.dataset.app; st.cat = 'all'; renderGrid(); document.getElementById('all').scrollIntoView({ behavior: RM ? 'auto' : 'smooth' }) }
+            });
+
+            // product dialog
+            const dlg = document.getElementById('pd');
+            document.addEventListener('click', e => {
+                const o = e.target.closest('[data-open]'); if (!o) return;
+                const p = byId[o.dataset.open], c = catOf(p.cat);
+                document.getElementById('pdDw').innerHTML = D[p.id];
+                document.getElementById('pdCat').innerHTML = `<b>■</b>&nbsp; ${c.name}`;
+                document.getElementById('pdName').textContent = p.name;
+                document.getElementById('pdDesc').textContent = p.desc;
+                document.getElementById('pdSpec').innerHTML = `<div><dt>Used for</dt><dd>${c.use}</dd></div><div><dt>Applications</dt><dd>${p.app.map(a => APPS[a]).join(', ')}</dd></div><div><dt>Specifications</dt><dd>Sizes, materials and ratings for each model are listed on its data sheet.</dd></div>`;
+                if (dlg.showModal) dlg.showModal();
+            });
+            document.getElementById('pdX').onclick = () => dlg.close();
+            dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close() });
+            document.getElementById('pdCta').addEventListener('click', () => dlg.close());
+
+            // mobile menu
+            const mb = document.getElementById('menuB'), mn = document.getElementById('mnav');
+            mb.onclick = () => { const o = mn.hidden; mn.hidden = !o; mb.setAttribute('aria-expanded', o); document.body.style.overflow = o ? 'hidden' : '' };
+            mn.addEventListener('click', e => { if (e.target.closest('a')) { mn.hidden = true; mb.setAttribute('aria-expanded', false); document.body.style.overflow = '' } });
+
+            /* ---------- scroll: compact header, hero settle, story positioning, exploded view ---------- */
+            const hdr = document.getElementById('hdr'), heroDw = document.getElementById('heroDw');
+            const stImgs = [...document.querySelectorAll('.st-img .dw')].slice(0, 2);
+            const parts = [...exp.querySelectorAll('[data-p]')], lab = document.getElementById('expLab');
+            const OFF = { hook: [-20, -38], nut: [38, -6], heel: [-46, -6], spring: [34, 30], handle: [-18, 26], frame: [0, 0] };
+            const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+            function onScroll() {
+                const y = scrollY, vh = innerHeight;
+                hdr.classList.toggle('compact', y > 40);
+                if (RM) { parts.forEach(g => { const o = OFF[g.dataset.p]; g.setAttribute('transform', `translate(${o[0]},${o[1]})`) }); return; }
+                const h = clamp(y / 500); heroDw.style.transform = `rotate(${-3 + 3 * clamp(h * 1.6)}deg) translateX(${(1 - clamp(h * 1.6)) * -12}px)`;
+                stImgs.forEach(s => { const r = s.parentElement.getBoundingClientRect(); const p = clamp((vh - r.top) / (vh + r.height)); s.style.transform = `scale(${1.08 - p * .08}) translateY(${(p - .5) * -18}px)` });
+                const r = exp.getBoundingClientRect(); const p = clamp((vh * .85 - r.top) / (vh * .6));
+                const e = p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+                parts.forEach(g => { const o = OFF[g.dataset.p]; g.setAttribute('transform', `translate(${o[0] * e},${o[1] * e})`) });
+                lab.style.opacity = clamp((p - .6) / .4);
+            }
+            let tk = false; addEventListener('scroll', () => { if (!tk) { tk = true; requestAnimationFrame(() => { onScroll(); tk = false }) } }, { passive: true });
+            addEventListener('resize', onScroll); onScroll();
+        })();
+    </script>
+
+</body>
+
+</html>
