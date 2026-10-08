@@ -2292,7 +2292,12 @@
 
             // hero + ghost + story
             document.getElementById('heroDw').innerHTML = D['pipe-wrench'];
-            document.getElementById('ghostDw').innerHTML = wrenchInner;
+
+            const ghostDw = document.getElementById('ghostDw');
+            if (ghostDw) {
+                ghostDw.innerHTML = wrenchInner;
+            }
+
             document.getElementById('stJaw').innerHTML = wrenchInner + `<text x="236" y="102" class="tag" style="font-size:7px">A</text><text x="358" y="160" class="tag" style="font-size:7px">B</text><text x="358" y="200" class="tag" style="font-size:7px">C</text>`;
             document.getElementById('stUse').innerHTML = D['grip-scene'];
             const exp = document.getElementById('stExp');
